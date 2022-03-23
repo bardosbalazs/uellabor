@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdint.h>
+#include <math.h>
 
 unsigned int xorKey(unsigned int Word, unsigned int Key){
 
@@ -7,12 +9,20 @@ unsigned int sum = 0;  //Cipher of the current iteration
 return sum = Word^Key;
 }
 
-unsigned int subBytes(unsigned int Cipher){
+int power(int x, int y){
+    
+    for(int i=0; i<y;i++)
+    x=x*x;
+}
 
-unsigned int L_4_bits;
-unsigned int H_4_bits;
+
+unsigned int subBytes(unsigned int Word){
+
+uint8_t L_4_bits;
+uint8_t H_4_bits;
+uint8_t subWord_8_bits[16];
 unsigned int subWord;
-unsigned int sbox[16][16] = {
+uint8_t sbox[16][16] = {
 
         /*0     1    2      3     4    5     6     7      8    9     A      B    C     D     E     F */
   /*0*/ {0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76},
@@ -30,29 +40,38 @@ unsigned int sbox[16][16] = {
   /*C*/ {0xba, 0x78, 0x25, 0x2e, 0x1c, 0xa6, 0xb4, 0xc6, 0xe8, 0xdd, 0x74, 0x1f, 0x4b, 0xbd, 0x8b, 0x8a},
   /*D*/ {0x70, 0x3e, 0xb5, 0x66, 0x48, 0x03, 0xf6, 0x0e, 0x61, 0x35, 0x57, 0xb9, 0x86, 0xc1, 0x1d, 0x9e},
   /*E*/ {0xe1, 0xf8, 0x98, 0x11, 0x69, 0xd9, 0x8e, 0x94, 0x9b, 0x1e, 0x87, 0xe9, 0xce, 0x55, 0x28, 0xdf},
-  /*F*/ {0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16} ;
+  /*F*/ {0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16} };
 
-    L_4_bits = Word & 0x00001111;
+uint8_t Word_8_bits[16]; 
+
+for (int i=0; i<15; i++){
+    Word_8_bits[i]= Word & 0xFF;
+
+    L_4_bits = Word & 0xF;
     Word >> 4;
-    H_4_bits = Word & 0x00001111;
+    H_4_bits = Word & 0xF;
+    
+    subWord_8_bits[i] = sbox[H_4_bits][L_4_bits];
+    subWord = subWord_8_bits[i] | subWord_8_bits[i] << power(i, 2);
+    }
 
-  subWord = sbox[H_4_bits][L_4_bits];
+  
 
   return subWord;
 }
 
-unsigned int AES(unsigned int Word, Key) {
+unsigned int AES(unsigned int Word, unsigned int Key) {
 
-unsigned int tmpCipher = 0;
+    unsigned int tmpCipher = Word;
 
-for (int i=0; i<10, i++){
-tmpCipher = xorKey(tmpCipher);
-tmpCipher = subBytes(tmpCipher);
+    for (int i=0; i<10; i++){
+    tmpCipher = xorKey(tmpCipher, Key);
+    tmpCipher = subBytes(tmpCipher);
 }
 
 return tmpCipher;
 
-};
+}
 
 int main(){
 
@@ -62,12 +81,13 @@ unsigned int Cipher = 0;
 
 printf("Word value(0-256): ");
 scanf("%d", &Word);
-if(Word < 0 || Word >256) { printf("Invalid Word value"); return }
+if(Word < 0 || Word > 256) { printf("Invalid Word value"); return 0; }
 
 printf("Key value (0-256): ");
 scanf("%d", &Key);
-if(Key < 0 || Key > 256) { printf("Invalid Key value"); return }
+if(Key < 0 || Key > 256) { printf("Invalid Key value"); return 0; }
 
 Cipher = AES(Word, Key);
+
 return 0;
 }
