@@ -36,7 +36,7 @@ unsigned int sbox[16][16] = {
     Word >> 4;
     H_4_bits = Word & 0x00001111;
 
-  subWord = sbox[H_4_bits][L_4_bits];  ????? bitműveletek!!
+  subWord = sbox[H_4_bits][L_4_bits];
 
   return subWord;
 }
