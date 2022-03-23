@@ -9,6 +9,8 @@ return sum = Word^Key;
 
 unsigned int subBytes(unsigned int Cipher){
 
+unsigned int L_4_bits;
+unsigned int H_4_bits;
 unsigned int subWord;
 unsigned int sbox[16][16] = {
 
@@ -30,7 +32,11 @@ unsigned int sbox[16][16] = {
   /*E*/ {0xe1, 0xf8, 0x98, 0x11, 0x69, 0xd9, 0x8e, 0x94, 0x9b, 0x1e, 0x87, 0xe9, 0xce, 0x55, 0x28, 0xdf},
   /*F*/ {0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16} ;
 
-  //subWord = sbox[][];  ????? bitműveletek!!
+    L_4_bits = Word & 0x00001111;
+    Word >> 4;
+    H_4_bits = Word & 0x00001111;
+
+  subWord = sbox[H_4_bits][L_4_bits];  ????? bitműveletek!!
 
   return subWord;
 }
@@ -62,6 +68,6 @@ printf("Key value (0-256): ");
 scanf("%d", &Key);
 if(Key < 0 || Key > 256) { printf("Invalid Key value"); return }
 
-//Cipher = AES(Word, Key);
+Cipher = AES(Word, Key);
 return 0;
 }
