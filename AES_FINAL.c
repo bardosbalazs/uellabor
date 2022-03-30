@@ -42,13 +42,13 @@ uint8_t* subBytes(uint8_t* Word)
 		for (int j = 0; j < 4; j++) 
 		{
 			L_bits = tmp_array[i][j] & 0xF;
+			
 			tmp_array[i][j] = tmp_array[i][j] >> 4;
 
 			H_bits = tmp_array[i][j] & 0xF;
 
 			tmp_array[i][j] = sbox[H_bits][L_bits];
 		}
-
 	}
 	uint8_t subCipher[16];
 	
@@ -62,18 +62,12 @@ uint8_t* subBytes(uint8_t* Word)
 
 uint8_t xorKey(uint8_t Word, uint8_t Key)
 {
-
-	uint8_t sum = 0;  //Cipher of the current iteration
-
-	sum = Word ^ Key;
-
-	return sum;
+	return Word^Key;
 }
 
-
-uint8_t* AES(uint8_t Word[], uint8_t Key[])
+void AES(uint8_t* Word, uint8_t* Key, uint8_t* Cipher)
 {
-	uint8_t* tmpCipher[16];
+	uint8_t tmpCipher[16];
 
 	for (int aes_iter = 0; aes_iter < 10; aes_iter++)
 	{
@@ -83,24 +77,22 @@ uint8_t* AES(uint8_t Word[], uint8_t Key[])
 
 			tmpCipher[j] = xorKey(tmpCipher[j], Key[j]);
 		}
-
-			tmpCipher = subBytes(tmpCipher); //!!!!!!!!!
+		for (int i = 0; i < 16; i++)
+		{
+			Cipher[i] = subBytes(tmpCipher)[i]; //!!!!!!!!!
+		}
 	}
-	return tmpCipher;
 }
 
 int main()
 {
 	uint8_t Word[16] = { 3, 23, 32, 32, 1, 32, 32, 4, 3, 5, 62, 12, 41, 25, 135, 32 };
 	uint8_t Key[16] = {5, 34, 43, 4, 3, 4, 1, 234, 2, 35, 65, 3, 2, 1, 2, 51 };
-	uint8_t Cipher[16];
+	uint8_t Cipher[16] = {0};
 
 
-	for (int i = 0; i < 16; i++)
-	{
-		Cipher[i] = AES(&Word, &Key);
-	}
-
+	AES(&Word, &Key, &Cipher);
+	
 	for (int i = 0; i < 16; i++)
 	{
 		printf("Cipher: %d, ", Cipher[i]);
