@@ -9,34 +9,17 @@ uint8_t* subBytes(uint8_t* Word)
 	uint8_t H_bits;
 	uint8_t L_bits;
 
-	/*for (int j = 0; j < 4; j++) 
+	for (int row = 0; row < 4; row++)
 	{
-		for (int k = 0; k < 4; k++) 
+		for (int col = 0; col < 4; col++) 
 		{
-			 for (int i = 0; i < 16; i++)
-			{
-				tmp_array[k][j] = Word[i];
-			}
-
+				tmp_array[row][col] = Word[row*4+col];
 		}
-	}*/
-
-	int k = 0;
-	int j = 0;
-	for (int i = 0; i < 16; i++) 
-	{
-		tmp_array[k][j] = Word[i];
-		k++;
-		j++;
-		if (j == 4)
-			j = 0;
-		if (k == 4)
-			k = 0;
 	}
 
 	uint8_t sbox[16][16] = {
 
-		/*0     1    2      3     4    5     6     7      8    9     A      B    C     D     E     F */
+		       /*0     1    2      3     4    5     6     7      8    9     A      B     C     D     E     F */
 		/*0*/{ 0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76 },
 		/*1*/{ 0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0 },
 		/*2*/{ 0xb7, 0xfd, 0x93, 0x26, 0x36, 0x3f, 0xf7, 0xcc, 0x34, 0xa5, 0xe5, 0xf1, 0x71, 0xd8, 0x31, 0x15 },
@@ -59,33 +42,40 @@ uint8_t* subBytes(uint8_t* Word)
 		for (int j = 0; j < 4; j++) 
 		{
 			L_bits = tmp_array[i][j] & 0xF;
-			tmp_array[i][j] >> 4;
+			tmp_array[i][j] = tmp_array[i][j] >> 4;
+
 			H_bits = tmp_array[i][j] & 0xF;
 
 			tmp_array[i][j] = sbox[H_bits][L_bits];
 		}
 
 	}
-	return tmp_array; //sorrá visza kell alakítani!!!!!
+	uint8_t subCipher[16];
+	
+	for (int row = 0; row < 4; row++) {
+		for (int col = 0; col < 4; col++)
 
-}
-
-uint8_t* xorKey(uint8_t* Word, uint8_t* Key)
-{
-
-	uint8_t sum[16] = 0;  //Cipher of the current iteration
-	for (int i = 0; i < 16; i++)
-	{
-		sum[i] = Word[i] ^ Key[i];
+			subCipher[row * 4 + col] = tmp_array[row][col];
 	}
-	return &sum;
+	return subCipher;
+}
+
+uint8_t xorKey(uint8_t Word, uint8_t Key)
+{
+
+	uint8_t sum = 0;  //Cipher of the current iteration
+
+	sum = Word ^ Key;
+
+	return sum;
 }
 
 
-uint8_t* AES(uint8_t* Word, uint8_t* Key) 
+uint8_t* AES(uint8_t Word[], uint8_t Key[])
 {
-	uint8_t tmpCipher[16];
-	for (int i = 0; i < 10; i++)
+	uint8_t* tmpCipher[16];
+
+	for (int aes_iter = 0; aes_iter < 10; aes_iter++)
 	{
 		for (int j = 0; j < 16; j++)
 		{
@@ -94,35 +84,17 @@ uint8_t* AES(uint8_t* Word, uint8_t* Key)
 			tmpCipher[j] = xorKey(tmpCipher[j], Key[j]);
 		}
 
-		tmpCipher = subBytes(tmpCipher); //!!!!!!!!!
+			tmpCipher = subBytes(tmpCipher); //!!!!!!!!!
 	}
 	return tmpCipher;
 }
 
 int main()
 {
-	uint8_t Word[16] = { 3 };
-	uint8_t Key[16] = { 3 };
+	uint8_t Word[16] = { 3, 23, 32, 32, 1, 32, 32, 4, 3, 5, 62, 12, 41, 25, 135, 32 };
+	uint8_t Key[16] = {5, 34, 43, 4, 3, 4, 1, 234, 2, 35, 65, 3, 2, 1, 2, 51 };
 	uint8_t Cipher[16];
 
-	/*printf("Word array element values (0-255): ");
-
-	for (int i = 0; i<16; i++)
-	{
-		printf("%d. ", i + 1);
-		scanf("%d", &Word[i]);
-
-		if (Word[i] < 0 || Word[i] > 255) { printf("Invalid Word value");  }
-	}
-printf("Key array element values (0-255): ");
-
-for (int i = 0; i < 16; i++)
-{
-	printf("%d. ", i + 1);
-	scanf("%d", &Key[i]);
-
-	if (Key[i] < 0 || Key[i] > 255) { printf("Invalid Key value"); return 0; }
-}*/
 
 	for (int i = 0; i < 16; i++)
 	{
@@ -131,7 +103,7 @@ for (int i = 0; i < 16; i++)
 
 	for (int i = 0; i < 16; i++)
 	{
-		printf("%d\n", Cipher[i]);
+		printf("Cipher: %d, ", Cipher[i]);
 	}
 	return 0;
 }
