@@ -12,6 +12,8 @@ module top_aes(
 reg [7:0] top_data_out;
 reg top_flag_data_sent;
 reg top_flag_address_sent;
+reg top_addr_ack;
+reg top_data_ack;
 
 aes aes_uut(
         .clk(top_clk),
@@ -22,6 +24,8 @@ aes aes_uut(
         .sbox_read(top_data_out),
         .flag_data_sent(top_flag_data_sent),
         .flag_address_sent(top_flag_address_sent)
+        .data_ack(top_data_ack),
+        .addr_ack(top_addr_ack)
     );
 
 memory memory_uut(
@@ -31,7 +35,9 @@ memory memory_uut(
         .rdy(rdy),
         .data_out(top_data_out)
         .flag_data_sent(top_flag_data_sent),
-        .flag_address_sent(top_flag_address_sent)
+        .flag_address_sent(top_flag_address_sent),
+        .data_ack(top_data_ack),
+        .addr_ack(top_addr_ack)
     );
 
 
