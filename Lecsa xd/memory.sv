@@ -4,6 +4,7 @@ module memory(
     input rst,
     input rdy,
 
+
     input flag_address_sent;
     output flag_data_sent;
 
@@ -12,6 +13,22 @@ module memory(
   
     output reg [7:0] data_out
     );
+
+reg state[1:0] = 0;
+parameter WRITE = 2'b00;
+parameter READ = 2'b01;
+
+always @(posedge clk) begin
+    case(state)
+    WRITE: begin
+        
+    end
+
+    READ: begin
+        
+    end
+
+end
 
 wire [7:0] sbox [15:0][15:0];
 
