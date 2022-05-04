@@ -1,4 +1,4 @@
-module AES256
+module aes
 (
     input clk,                          //órajel
     input rst,                          //reset
