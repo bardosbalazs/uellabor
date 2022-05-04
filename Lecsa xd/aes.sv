@@ -6,19 +6,17 @@ module AES256
     input [127:0] word,                 //bemeneti "szó"
     input [7:0] sbox_read_data,         //sbox olvasas
 
-    input flag_data_sent;
-    output flag_address_sent;
+    input flag_data_sent;               //FLAG adatot megkaptam a memóriából
+    output flag_address_sent;           //FLAG címet elküldtem a memóriának
 
-    input addr_ack;
-    output data_ack;
+    input addr_ack;                     //NYUGTA címet megkaptam
+    output data_ack;                    //NYUGTA adatot megkapta-e a memória
 
     output reg [7:0] sbox_rqst_addr;    //sbox cimkeres
     output reg [127:0] cipher           //titkosított "szó"
     );
 
-    reg [7:0] state_matrix[0:3][0:3]; //Állapot-mátrix
-
-    reg [255:0] sbox[0:15][0:15];
+    reg [7:0] state_matrix[0:3][0:3];   //Állapot-mátrix
 
     always @ (posedge clk)  //szavak bitjeinek betöltése az állapot-mátrixba
     begin
