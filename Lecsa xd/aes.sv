@@ -146,21 +146,22 @@ module AES256
                 if(i>15) state=FINISH;
             end
             FINISH: begin 
-                cipher[] <= state_matrix[][];
-                cipher[] <= state_matrix[][];
-                cipher[] <= state_matrix[][];
-                cipher[] <= state_matrix[][];
-                cipher[] <= state_matrix[][];
-                cipher[] <= state_matrix[][];
-                cipher[] <= state_matrix[][];
-                cipher[] <= state_matrix[][];
-                cipher[] <= state_matrix[][];
-                cipher[] <= state_matrix[][];
-                cipher[] <= state_matrix[][];
-                cipher[] <= state_matrix[][];
-                cipher[] <= state_matrix[][];
-                cipher[] <= state_matrix[][];
-                cipher[] <= state_matrix[][];
+                cipher[7:0] <= state_matrix[3][3];
+                cipher[15:8] <= state_matrix[3][2];
+                cipher[23:16] <= state_matrix[3][1];
+                cipher[31:24] <= state_matrix[3][0];
+                cipher[39:32] <= state_matrix[2][3];
+                cipher[47:40] <= state_matrix[2][2];
+                cipher[55:48] <= state_matrix[2][1];
+                cipher[63:56] <= state_matrix[2][0];
+                cipher[71:64] <= state_matrix[1][3];
+                cipher[79:72] <= state_matrix[1][2];
+                cipher[87:80] <= state_matrix[1][1];
+                cipher[95:88] <= state_matrix[1][0];
+                cipher[103:96] <= state_matrix[0][3];
+                cipher[111:104] <= state_matrix[0][3];
+                cipher[119:112] <= state_matrix[0][3];
+                cipher[127:120] <= state_matrix[0][3];
             endcase
 
     end
