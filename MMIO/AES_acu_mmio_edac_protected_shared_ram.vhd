@@ -19,17 +19,17 @@ entity acu_mmio_edac_protected_shared_ram is
 		address_width:									integer range 3 to 16;
 		data_width:										integer range 4 to 16;
 
-		address_word_low:								integer range 0 to 65565;
-		address_word_high:								integer range 0 to 65565;
+		address_word_low:								integer range 0 to 65535;
+		address_word_high:								integer range 0 to 65535;
 
-		address_key_low:								integer range 0 to 65565;
-		address_key_high:								integer range 0 to 65565;
+		address_key_low:								integer range 0 to 65535;
+		address_key_high:								integer range 0 to 65535;
 
-		address_cipher_low:								integer range 0 to 65565;
-		address_cipher_high:							integer range 0 to 65565;
+		address_cipher_low:								integer range 0 to 65535;
+		address_cipher_high:								integer range 0 to 65535;
 
-		address_sbox_low:								integer range 0 to 65565;
-		address_sbox_high:								integer range 0 to 65565
+		address_sbox_low:								integer range 0 to 65535;
+		address_sbox_high:								integer range 0 to 65535
 	);
 	
 	port (
