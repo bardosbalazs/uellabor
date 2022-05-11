@@ -6,15 +6,15 @@ entity sprf_async_out is
 	port (
 		clk:		in	std_logic;
 		we:			in	std_logic;
-		addr:		in	std_logic_vector (7 downto 0);
-		data_in:	in	std_logic_vector (15 downto 0);
-		data_out:	out std_logic_vector (15 downto 0)
+		addr:		in	std_logic_vector (15 downto 0);
+		data_in:	in	std_logic_vector (7 downto 0);
+		data_out:	out std_logic_vector (7 downto 0)
 );
 end entity sprf_async_out;
 
 architecture rtl of sprf_async_out is
 
-	type content_t is array (0 to 255) of std_logic_vector (15 downto 0);
+	type content_t is array (0 to 15) of std_logic_vector (7 downto 0);
 	signal content: content_t := (
 		0 => X"1111",
 		1 => X"0000"
