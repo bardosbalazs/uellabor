@@ -9,7 +9,8 @@ entity acu_mmio_peripheral_template is
 		generate_intr:							boolean;
 		my_address_1:							integer range 0 to 65535;
 		my_address_2:							integer range 0 to 65535;
-		my_address_3:							integer range 0 to 65535
+		my_address_3:							integer range 0 to 65535;
+		my_address_4:							integer range 0 to 65535;
 		
 	);
 	
