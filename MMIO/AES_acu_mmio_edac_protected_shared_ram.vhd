@@ -15,7 +15,7 @@ entity acu_mmio_peripheral_template is
 		address_key_high:						integer range 0 to 65535;
 
 		address_cipher_low:						integer range 0 to 65535;
-		address_cipher_high:					integer range 0 to 65535;
+		address_cipher_high:						integer range 0 to 65535;
 
 		address_sbox_low:						integer range 0 to 65535;
 		address_sbox_high:						integer range 0 to 65535
@@ -23,20 +23,20 @@ entity acu_mmio_peripheral_template is
 	);
 	
 	port (
-		clk:						in	std_logic;
-		raw_reset_n:				in	std_logic;
+		clk:								in	std_logic;
+		raw_reset_n:							in	std_logic;
 		
 		-- ACU memory-mapped I/O interface
-		read_strobe_from_acu:		in	std_logic;
-		write_strobe_from_acu:		in	std_logic;
-		ready_2_acu:				out	std_logic;
-		address_from_acu:			in	std_logic_vector (15 downto 0);
-		data_from_acu:				in	std_logic_vector (15 downto 0);
-		data_2_acu:					out	std_logic_vector (15 downto 0);
+		read_strobe_from_acu:						in	std_logic;
+		write_strobe_from_acu:						in	std_logic;
+		ready_2_acu:							out	std_logic;
+		address_from_acu:						in	std_logic_vector (15 downto 0);
+		data_from_acu:							in	std_logic_vector (15 downto 0);
+		data_2_acu:							out	std_logic_vector (15 downto 0);
 		
 		-- ACU interrupt interface
-		intr_rqst:					out	std_logic;
-		intr_ack:					in	std_logic;
+		intr_rqst:							out	std_logic;
+		intr_ack:							in	std_logic;
 		
 		-- User logic external interface
 		-- ...
@@ -44,9 +44,9 @@ entity acu_mmio_peripheral_template is
 		-- ...
 		
 		-- FSM error interface
-		invalid_state_error:		out	std_logic;
-		recover_fsm_n:				in	std_logic;
-		recover_fsm_n_ack:			out	std_logic
+		invalid_state_error:						out	std_logic;
+		recover_fsm_n:							in	std_logic;
+		recover_fsm_n_ack:						out	std_logic
 	);
 end entity acu_mmio_peripheral_template;
 ---------------------------------------------------------------------------------------------------
