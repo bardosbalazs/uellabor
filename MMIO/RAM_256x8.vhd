@@ -4,11 +4,12 @@ use ieee.numeric_std.all;
 
 entity sprf_async_out is
 	port (
-		clk:		in	std_logic;
+		clk:			in	std_logic;
 		we:			in	std_logic;
-		addr:		in	std_logic_vector (255 downto 0);
-		data_in:	in	std_logic_vector (7 downto 0);
-		data_out:	out std_logic_vector (7 downto 0)
+		addr_write:		in	std_logic_vector (255 downto 0);
+		addr_read:		in	std_logic_vector (255 downto 0);
+		data_in:		in	std_logic_vector (7 downto 0);
+		data_out:		out std_logic_vector (7 downto 0)
 );
 end entity sprf_async_out;
 
