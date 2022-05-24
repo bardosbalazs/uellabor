@@ -263,32 +263,67 @@ begin
 				
 				----------------------------------------------------------------------------------------------
 
-				when write_word_address_1	    =>      <=(address_from_acu);
-                                                        write_strobe_word <= 1; 
+				when write_word_address_1	    =>      <= unsigned(address_from_acu);
+                                                        write_strobe_from_acu <= 1; 
                                                         state <= write_word_address_2;
-            -   when write_word_address_2	    =>		write_strobe_word <= 0;
+
+            -   when write_word_address_2	    =>		write_strobe_from_acu <= 0;
                                                         state <= wait_for_deassert_strobes;
 
-                when write_word_data_1      =>           
-                when write_word_data_2      =>  state <=wait_for_deassert_strobes;                                   
-									
-				when write_key_1	    =>		-- ...
-                when write_key_2	    =>		state <=wait_for_deassert_strobes;
-									-- ...
-									-- ...
-									
-				when write_cipher_1	    =>	-- ...
-				when write_cipher_2	    =>		state <=wait_for_deassert_strobes;			
-                -- ...
-									-- ...
+                when write_word_data_1     		=>    	<= unsigned(data_from_acu);
+                                                    	write_strobe_from_acu <= 1; 
+                                                        state <= write_word_data_2;
+				     
+                when write_word_data_2      	=>  	state <= write_word_data_3;
+				
+				when write_word_data_3 			=>		write_strobe_from_acu <= 0;
+														state <= wait_for_deassert_strobes;                                   
+-------------------------------------------------------------------------------------------------------------------------
 
+				when write_key_address_1	    =>      <= unsigned(address_from_acu);
+                                                        write_strobe_from_acu <= 1; 
+                                                        state <= write_key_address_2;
+
+            -   when write_key_address_2	    =>		write_strobe_from_acu <= 0;
+                                                        state <= wait_for_deassert_strobes;
+
+
+                when write_key_data_1     		=>    	<= unsigned(data_from_acu);
+                                                    	write_strobe_from_acu <= 1; 
+                                                        state <= write_key_data_2;
+				     
+                when write_key_data_2      		=>  	state <= write_key_data_3;
+				
+				when write_key_data_3 			=>		write_strobe_from_acu <= 0;
+														state <= wait_for_deassert_strobes;
+
+-------------------------------------------------------------------------------------------------------------------------
+
+				when write_cipher_address_1	    =>      <= unsigned(address_from_acu);
+                                                        write_strobe_from_acu <= 1; 
+                                                        state <= write_cipher_address_2;
+
+            -   when write_cipher_address_2	    =>		write_strobe_from_acu <= 0;
+                                                        state <= wait_for_deassert_strobes;
+
+
+                when write_cipher_data_1     	=>    	<= unsigned(data_from_acu);
+                                                    	write_strobe_from_acu <= 1; 
+                                                        state <= write_cipher_data_2;
+				     
+                when write_cipher_data_2      	=>  	state <= write_cipher_data_3;
+				
+				when write_cipher_data_3 		=>		write_strobe_from_acu <= 0;
+														state <= wait_for_deassert_strobes;
+
+-------------------------------------------------------------------------------------------------------------------------
 
         		when write_sbox_1     => 	
                 when write_sbox_2     => 	state <=wait_for_deassert_strobes;
                                			    			 --...
                                			   			  --...
 				
-                     --address from acuból kell majd kiszámítani a címet                                       
+                     --address from acubol kell majd kiszamitani a cimet                                       
 			--when read_word_address_1		=> word_address <= address_from_acu;
             --                                        state <= read_word_data;
             --  when read_word_address_2	    => state <=read_word_address_3;
